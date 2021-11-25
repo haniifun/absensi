@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Jakarta',
 
     /*
     |--------------------------------------------------------------------------
@@ -80,8 +80,7 @@ return [
     |
     */
 
-    'locale' => 'en',
-
+    'locale' => 'id',
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
@@ -106,7 +105,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => 'id_ID',
 
     /*
     |--------------------------------------------------------------------------
@@ -174,6 +173,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        // Spatie laravel permission
+        Spatie\Permission\PermissionServiceProvider::class,
 
     ],
 
