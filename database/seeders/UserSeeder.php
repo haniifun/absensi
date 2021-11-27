@@ -18,6 +18,7 @@ class UserSeeder extends Seeder
             'nama' => 'Admin Website',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('admin123'),
+            'status' => 'Aktif',
         ]);
         $admin->assignRole('admin');
 
@@ -25,6 +26,7 @@ class UserSeeder extends Seeder
             'nama' => 'Pembina',
             'email' => 'pembina@gmail.com',
             'password' => bcrypt('pembina123'),
+            'status' => 'Aktif',
         ]);
         $pembina->assignRole('pembina');
 
@@ -39,15 +41,15 @@ class UserSeeder extends Seeder
         ]);
         $ketua->assignRole('ketua');
 
-        $mahasiswa = User::create([
-            'nama' => 'Mahasiswa',
-            'email' => 'mahasiswa@gmail.com',
+        $anggota = User::create([
+            'nama' => 'Anggota',
+            'email' => 'anggota@gmail.com',
             'id_univ' => 1,
             'id_divisi' => 2,
             'tahun_ajar' => '2020',
             'status' => 'Aktif',
-            'password' => bcrypt('mahasiswa123'),
+            'password' => bcrypt('anggota123'),
         ]);
-        $mahasiswa->assignRole('mahasiswa');
+        $anggota->assignRole('anggota');
     }
 }

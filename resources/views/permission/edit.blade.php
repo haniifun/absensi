@@ -25,7 +25,7 @@
               <h5 class="card-title">Form Edit Permission</h5>
             </div>
             <div class="card-body">
-                <form action="{{ route('admin.permission.update', $permission->id) }}" method="post">
+                <form action="{{ route('manajemen.permission.update', $permission->id) }}" method="post">
                     @csrf
                     <div class="form-group">
                         <label for="">Permission</label>

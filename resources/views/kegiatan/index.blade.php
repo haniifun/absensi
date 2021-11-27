@@ -33,17 +33,21 @@ use Carbon\Carbon;
               <h5 class="card-title">Data Kegiatan</h5>
             </div>
             <div class="card-body">
+              @can('jadwal-create')
               <div class="row my-3">
                 <div class="col-md-12">
-                  <a href="{{ route('kegiatan.create') }}" class="btn btn-primary text-white"><i class="fas fa-plus"></i> Tambah</a>
+                  <a href="{{ route('manajemen.kegiatan.create') }}" class="btn btn-primary text-white"><i class="fas fa-plus"></i> Tambah</a>
                 </div>
               </div>
+              @endcan
               <div class="row">
                 <div class="col-lg col-md-12">
                   <table id="example1" class="table table-bordered table-hover">
                     <thead>
                       <tr>
+                        @if( !auth()->user()->hasRole('pembina') )
                         <th></th>
+                        @endif
                         <th>Nama Kegiatan</th>
                         <th>Tanggal</th>
                         <th>Universitas</th>
@@ -52,15 +56,65 @@ use Carbon\Carbon;
                     <tbody>
                       @foreach ($kegiatan as $val)
                         <tr>
+                          @if( !auth()->user()->hasRole('pembina') )
                             <td class="col-2 text-center">
-                                <a href="{{ route('kegiatan.delete', $val->id) }}" data-method='delete' data-confirm='Apakah anda yakin ingin menghapus kegiatan {{$val->nama_kegiatan}}?' class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                                <a href="{{ route('kegiatan.edit', $val->id) }}" class="btn btn-sm btn-default"><i class="fas fa-edit"></i></a>
-                                <a href="{{ route('kegiatan.show', $val->id) }}" class="btn btn-sm btn-info"><i class="fas fa-eye"></i></a>
+
+                                @can('jadwal-delete')
+                                <a href="{{ route('manajemen.kegiatan.delete', $val->id) }}" data-method='delete' data-confirm='Apakah anda yakin ingin menghapus kegiatan {{$val->nama_kegiatan}}?' class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                @endcan
+
+                                @can('jadwal-edit')
+                                <a href="{{ route('manajemen.kegiatan.edit', $val->id) }}" class="btn btn-sm btn-default"><i class="fas fa-edit"></i></a>
+                                @endcan
+
+                                @can('absensi')
+                                    @if ( $val->absensi->count() > 0 )
+                                      {{ 'Sudah absen' }}
+                                    @else
+                                      <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-default-{{ $val->id }}">
+                                        Absen
+                                      </button>
+                                    @endif
+                                @endcan
                             </td>
+                          @endif
                             <td>{{ $val->nama_kegiatan}}</td>
                             <td>{{ Carbon::parse($val->tanggal)->translatedFormat('l, d F Y'); }}</td>
-                            <td>{{ $val->univ->nama_univ}}</td>
+                            <td>{{ $val->univ->nama_univ ?? '-' }}</td>
                         </tr>
+                        <!-- Modal dialog -->
+                        <div class="modal fade" id="modal-default-{{ $val->id }}">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h4 class="modal-title">Absensi</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <form action="{{ route('absensi.submit') }}" method="post" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="id_kegiatan" value="{{ $val->id }}">
+                                <div class="modal-body">
+                                  <div class="form-group">
+                                    <div>
+                                      <h6 class="font-weight-bold">Upload Foto Wajah</h4>
+                                    </div>
+                                    <div>
+                                      <input type="file" name="foto" required>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                  <button type="submit" class="btn btn-block btn-primary">Submit</button>
+                                </div>
+                              </form>
+                            </div>
+                            <!-- /.modal-content -->
+                          </div>
+                          <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
                       @endforeach
                     </tbody>
                   </table>

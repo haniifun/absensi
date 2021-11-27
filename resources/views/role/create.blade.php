@@ -8,12 +8,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0 text-dark">Edit Role</h1>
+          <h1 class="m-0 text-dark">Tambah Role</h1>
         </div><!-- /.col -->
         <div class="col-sm-6 small-9">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Admin</a></li>
-            <li class="breadcrumb-item active">Edit role</li>
+            <li class="breadcrumb-item active">Tambah role</li>
           </ol>
         </div><!-- /.col -->
       </div><!-- /.row -->
@@ -22,14 +22,14 @@
         <div class="col-lg col-md-12">
           <div class="card card-primary small-9">
             <div class="card-header">
-              <h5 class="card-title">Form Edit Role</h5>
+              <h5 class="card-title">Form Tambah Role</h5>
             </div>
             <div class="card-body">
-                <form action="{{ route('admin.role.update', $role->id) }}" method="post">
+                <form action="{{ route('manajemen.role.store') }}" method="post">
                     @csrf
                     <div class="form-group">
                         <label for="">Role</label>
-                        <input type="text" name="role" id="" class="form-control" placeholder="Role" value="{{ !empty(old('role')) ? old('role') : $role->name}}">
+                        <input type="text" name="role" id="" class="form-control" placeholder="Role" value="{{ old('role') }}">
                         @error('role')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
@@ -41,7 +41,7 @@
                         @enderror
                         @foreach ($permissions as $permission)
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="permissions[]" value="{{ $permission->name }}" {{ in_array($permission->name, $akses) ? 'checked' : null }}>
+                                <input class="form-check-input" type="checkbox" name="permissions[]" value="{{ $permission->name }}">
                                 <label class="form-check-label">{{ $permission->name }}</label>
                             </div>
                         @endforeach

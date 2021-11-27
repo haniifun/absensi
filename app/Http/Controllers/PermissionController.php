@@ -11,12 +11,12 @@ class PermissionController extends Controller
     public function index()
     {
         $permissions = Permission::orderBy('id','DESC')->get();
-        return view('admin.permission.index', compact('permissions'));
+        return view('permission.index', compact('permissions'));
     }
 
     public function create()
     {
-        return view('admin.permission.create');
+        return view('permission.create');
     }
 
     public function store(Request $request)
@@ -26,13 +26,13 @@ class PermissionController extends Controller
         ]);
     
         Permission::create(['name' => $request->permission]);
-        return redirect()->route('admin.permission.index')->with('message', '<div class="alert alert-success my-3">Permission baru berhasil ditambahkan.</div>');
+        return redirect()->route('manajemen.permission.index')->with('message', '<div class="alert alert-success my-3">Permission baru berhasil ditambahkan.</div>');
     }
 
     public function edit($id)
     {
         $permission = Permission::where('id',$id)->first();
-        return view('admin.permission.edit', compact('permission'));
+        return view('permission.edit', compact('permission'));
     }
 
     public function update(Request $request, $id)
@@ -42,14 +42,14 @@ class PermissionController extends Controller
         ]);
         
         Permission::where('id', $id)->update(['name' => $request->permission]);
-        return redirect()->route('admin.permission.index')->with('message', '<div class="alert alert-success my-3">Permission baru berhasil diubah.</div>');
+        return redirect()->route('manajemen.permission.index')->with('message', '<div class="alert alert-success my-3">Permission baru berhasil diubah.</div>');
     }
 
     public function delete($id)
     {
         $delete = Permission::where('id', $id)->delete();
         if ($delete) {
-            return redirect()->route('admin.permission.index')->with('message', '<div class="alert alert-success my-3">Permission baru berhasil dihapus.</div>');
+            return redirect()->route('manajemen.permission.index')->with('message', '<div class="alert alert-success my-3">Permission baru berhasil dihapus.</div>');
         }
     }
 }

@@ -25,7 +25,7 @@
               <h5 class="card-title">Form Edit Kegiatan</h5>
             </div>
             <div class="card-body">
-                <form action="{{ route('kegiatan.store') }}" method="post">
+                <form action="{{ route('manajemen.kegiatan.update', $kegiatan->id) }}" method="post">
                     @csrf
                     <div class="form-group">
                         <label for="">Nama kegiatan</label>
@@ -41,6 +41,8 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
+
+                    @if( auth()->user()->hasRole('admin') )
                     <div class="form-group">
                         <label for="">Universitas</label>
                         <select name="id_univ" id="" class="form-control">
@@ -57,6 +59,7 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
+                    @endif
                     <div class="form-group">
                         <button class="btn btn-primary float-right px-3">Simpan</button>
                     </div>

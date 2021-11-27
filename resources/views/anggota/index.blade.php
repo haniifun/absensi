@@ -12,8 +12,8 @@
         </div><!-- /.col -->
         <div class="col-sm-6 small-9">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="#">Admin</a></li>
-            <li class="breadcrumb-item active">Dashboard User</li>
+            <li class="breadcrumb-item"><a href="#">Anggota</a></li>
+            <li class="breadcrumb-item active">index</li>
           </ol>
         </div><!-- /.col -->
       </div><!-- /.row -->
@@ -27,12 +27,12 @@
         <div class="col-lg col-md-12">
           <div class="card small-9">
             <div class="card-header">
-              <h5 class="card-title">Data User</h5>
+              <h5 class="card-title">Data Anggota Komunitas</h5>
             </div>
             <div class="card-body">
               <div class="row my-3">
                 <div class="col-md-12">
-                  <a href="{{ route('manajemen.user.create') }}" class="btn btn-sm btn-primary text-white"><i class="fas fa-plus"></i> Tambah</a>
+                  <a href="{{ route('manajemen.anggota.create') }}" class="btn btn-sm btn-primary text-white"><i class="fas fa-plus"></i> Tambah</a>
                 </div>
               </div>
               <div class="row">
@@ -44,7 +44,6 @@
                         <th>Nama</th>
                         <th>Universitas</th>
                         <th>Tahun Ajar</th>
-                        <th>Role</th>
                         <th>Status</th>
                       </tr>
                     </thead>
@@ -52,14 +51,13 @@
                         @foreach ($users as $user)
                             <tr class="align-middle">
                                 <td class="text-center col-2">
-                                  <a href="{{ route('manajemen.user.delete', $user->id) }}" data-method='delete' data-confirm='Apakah anda yakin ingin menghapus {{$user->nama}}?' class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                                  <a href="{{ route('manajemen.user.edit', $user->id) }}" class="btn btn-sm btn-default"><i class="fas fa-edit"></i></a>
-                                  <a href="{{ route('manajemen.user.show', $user->id) }}" class="btn btn-sm btn-info"><i class="fas fa-eye"></i></a>
+                                  <a href="{{ route('manajemen.anggota.delete', $user->id) }}" data-method='delete' data-confirm='Apakah anda yakin ingin menghapus {{$user->nama}}?' class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                  <a href="{{ route('manajemen.anggota.edit', $user->id) }}" class="btn btn-sm btn-default"><i class="fas fa-edit"></i></a>
+                                  <a href="{{ route('manajemen.anggota.show', $user->id) }}" class="btn btn-sm btn-info"><i class="fas fa-eye"></i></a>
                                 </td>
                                 <td class="align-middle">{{ $user->nama }}</td>
                                 <td class="align-middle">{{ isset($user->univ) ? $user->univ->nama_univ : '-' }}</td>
                                 <td class="align-middle">{{ $user->tahun_ajar}}</td>
-                                <td class="align-middle">{{ ucwords($user->getRoleNames()->first()) }}</td>
                                 <td class="align-middle "><span class="badge badge-{{ $user->status == 'Aktif' ? 'success' : 'dark' }} text-white px-3 py-1">{{ $user->status }}</span></td>
                             </tr>
                         @endforeach

@@ -13,7 +13,7 @@
         <div class="col-sm-6 small-9">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Admin</a></li>
-            <li class="breadcrumb-item active">Role</li>
+            <li class="breadcrumb-item active">Permission</li>
           </ol>
         </div><!-- /.col -->
       </div><!-- /.row -->
@@ -27,32 +27,31 @@
         <div class="col-lg col-md-12">
           <div class="card">
             <div class="card-header">
-              <h5 class="card-title">Roles</h5>
+              <h5 class="card-title">Permissions</h5>
             </div>
             <div class="card-body">
               <div class="row my-3">
                 <div class="col-md-12">
-                  <a href="{{ route('admin.role.create') }}" class="btn btn-primary text-white"><i class="fas fa-plus"></i> Tambah</a>
+                  <a href="{{ route('manajemen.permission.create') }}" class="btn btn-primary text-white"><i class="fas fa-plus"></i> Tambah</a>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg col-md-12">
-                  <table id="example1" class="table table-striped table-hover">
+                  <table id="example1" class="table table-striped table-bordered table-hover">
                     <thead>
                       <tr>
-                          <th></th>
-                        <th>Role</th>
+                        <th></th>
+                        <th>Permission</th>
                       </tr>
                     </thead>
                     <tbody>
-                        @foreach ($roles as $role)
+                        @foreach ($permissions as $permission)
                             <tr>
                                 <td class="col-2 text-center">
-                                    <a href="{{ route('admin.role.delete', $role->id) }}" data-method='delete' data-confirm='Apakah anda yakin ingin menghapus {{$role->name}}?' class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                                    <a href="{{ route('admin.role.edit', $role->id) }}" class="btn btn-sm btn-default"><i class="fas fa-edit"></i></a>
-                                    <a href="{{ route('admin.role.show', $role->id) }}" class="btn btn-sm btn-info"><i class="fas fa-eye"></i></a>
+                                    <a href="{{ route('manajemen.permission.delete', $permission->id) }}" data-method='delete' data-confirm='Apakah anda yakin ingin menghapus {{$permission->name}}?' class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                    <a href="{{ route('manajemen.permission.edit', $permission->id) }}" class="btn btn-sm btn-default"><i class="fas fa-edit"></i></a>
                                 </td>
-                                <td>{{ $role->name }}</td>
+                                <td>{{ $permission->name }}</td>
                             </tr>
                         @endforeach
                     </tbody>

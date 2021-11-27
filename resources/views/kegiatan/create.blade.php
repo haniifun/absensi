@@ -25,7 +25,7 @@
               <h5 class="card-title">Form Tambah Kegiatan</h5>
             </div>
             <div class="card-body">
-                <form action="{{ route('kegiatan.store') }}" method="post">
+                <form action="{{ route('manajemen.kegiatan.store') }}" method="post">
                     @csrf
                     <div class="form-group">
                         <label for="">Nama kegiatan</label>
@@ -41,18 +41,21 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="form-group">
-                        <label for="">Universitas</label>
-                        <select name="id_univ" id="" class="form-control">
-                            <option value="">-- Pilih Universitas --</option>
-                            @foreach ($univ as $val)
-                              <option value="{{$val->id}}" {{ old('id_univ')==$val->id ? 'selected' : null }}>{{ $val->nama_univ }}</option>
-                            @endforeach
-                        </select>
-                        @error('id_univ')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
+
+                    @if( auth()->user()->hasRole('admin') )
+                      <div class="form-group">
+                          <label for="">Universitas</label>
+                          <select name="id_univ" id="" class="form-control">
+                              <option value="">-- Pilih Universitas --</option>
+                              @foreach ($univ as $val)
+                                <option value="{{$val->id}}" {{ old('id_univ')==$val->id ? 'selected' : null }}>{{ $val->nama_univ }}</option>
+                              @endforeach
+                          </select>
+                          @error('id_univ')
+                              <div class="text-danger">{{ $message }}</div>
+                          @enderror
+                      </div>
+                    @endif
                     <div class="form-group">
                         <button class="btn btn-primary float-right px-3">Simpan</button>
                     </div>
@@ -90,8 +93,7 @@
       $('.datepicker').datepicker({
             format: 'yyyy-mm-dd',
             autoclose: true,
-            yearRange: '1999:2012',
-            minDate: new Date(1999, 10 - 1, 25),
+            minDate: 0,
             maxDate: '+30Y',
         });
     });

@@ -8,94 +8,82 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0 text-dark">Tambah User</h1>
+          <h1 class="m-0 text-dark">Edit User</h1>
         </div><!-- /.col -->
         <div class="col-sm-6 small-9">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Manajemen user</a></li>
-            <li class="breadcrumb-item active">Tambah user</li>
+            <li class="breadcrumb-item active">Edit user</li>
           </ol>
         </div><!-- /.col -->
       </div><!-- /.row -->
+      
+      {{-- Alert --}}
+      @if (\Session::has('message'))
+          {!! \Session::get('message') !!}
+      @endif
 
       <div class="row my-3">
         <div class="col-lg col-md-12">
           <div class="card card-primary small-9">
             <div class="card-header">
-              <h5 class="card-title">Form Tambah User</h5>
+              <h5 class="card-title">Form Edit User</h5>
             </div>
             <div class="card-body">
-                <form action="{{ route('manajemen.user.store') }}" method="post">
+                <form action="{{ route('manajemen.anggota.update',$user->id) }}" method="post">
                     @csrf
                     <div class="form-group">
                         <label for="">Nama</label>
-                        <input type="text" name="nama" id="" class="form-control" placeholder="Nama lengkap" value="{{ old('nama') }}">
+                        <input type="text" name="nama" id="" class="form-control" placeholder="Nama lengkap" value="{{ !empty(old('nama')) ? old('nama') : $user->nama }}">
                         @error('nama')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label for="">Email</label>
-                        <input type="email" name="email" id="" class="form-control" placeholder="Email" value="{{ old('email') }}">
+                        <input type="email" name="email" id="" class="form-control" placeholder="Email" value="{{ !empty(old('email')) ? old('email') : $user->email }}">
                         @error('email')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="">Password</label>
-                        <input type="text" name="password" id="" class="form-control" placeholder="Password"  value="{{ old('password') }}">
-                        @error('password')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="">Role</label>
-                        <select name="role" id="" class="form-control">
-                            <option value="">-- Pilih Role --</option>
-                            @foreach ($roles as $val)
-                              <option value="{{$val->name}}" {{ old('role')==$val->id ? 'selected' : null }} >{{ $val->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
                         <label for="">Universitas</label>
-                        <select name="id_univ" id="" class="form-control">
-                            <option value="">-- Pilih Universitas --</option>
-                            @foreach ($univ as $val)
-                              <option value="{{$val->id}}" {{ old('id_univ')==$val->id ? 'selected' : null }} >{{ $val->nama_univ }}</option>
-                            @endforeach
-                        </select>
+                        <input type="text" name="" class="form-control" disabled value="{{ $univ->nama_univ }}">
                     </div>
                     <div class="form-group">
                         <label for="">Divisi</label>
                         <select name="id_divisi" id="" class="form-control">
                             <option value="">-- Pilih Divisi --</option>
                             @foreach ($divisi as $val)
-                              <option value="{{$val->id}}" {{ old('id_divisi') == $val->id ? 'selected':null}} >{{ $val->nama_divisi }}</option>
+                              @if( !empty(old('id_divisi')) )
+                                <option value="{{$val->id}}" {{  old('id_divisi')==$val->id ? "selected" : null }} >{{ $val->nama_divisi }}</option>
+                              @else
+                                <option value="{{$val->id}}" {{  $user->id_divisi==$val->id ? "selected" : null }} >{{ $val->nama_divisi }}</option>
+                              @endif
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="">Tahun Ajar</label>
-                        <input type="number" name="tahun_ajar" id="" class="form-control" placeholder="Tahun ajar" value="{{ old('tahun_ajar') }}">
+                        <input type="number" name="tahun_ajar" id="" class="form-control" placeholder="Tahun ajar" value="{{ !empty(old('tahun_ajar')) ? old('tahun_ajar') : $user->tahun_ajar }}">
                     </div>
                     <div class="form-group">
                       <label for="">Status</label>
                       <div class="form-check">
                         <div class="row">
                           <div class="col-sm-1">
-                            <input class="form-check-input" type="radio" name="status" id="aktif" value="Aktif" {{ old('status')=='Aktif' ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="status" id="aktif" value="Aktif" {{ $user->status =='Aktif' ? 'checked' : '' }}>
                             <label class="form-check-label" for="aktif">Aktif</label>
                           </div>
                           <div class="col-sm-1">
-                            <input class="form-check-input" type="radio" name="status" id="non-aktif" value="Tidak aktif" {{ old('status')=='Tidak aktif' ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="status" id="non-aktif" value="Tidak aktif" {{ $user->status =='Tidak aktif' ? 'checked' : '' }}>
                             <label class="form-check-label" for="non-aktif">Tidak Aktif</label>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="form-group">
-                        <button class="btn btn-block btn-primary">Simpan</button>
+                    <div class="form-group float-right">
+                        <button type="submit" class="btn btn-primary px-3">Simpan</button>
                     </div>
                 </form>
             </div>

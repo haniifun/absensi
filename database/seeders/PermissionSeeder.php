@@ -7,42 +7,55 @@ use Spatie\Permission\Models\Permission;
 
 class PermissionSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
+        // Role,Permission,User -> Admin
+        Permission::firstOrCreate(['name' => 'manajemen-role'])->assignRole('admin');
+        Permission::firstOrCreate(['name' => 'manajemen-permission'])->assignRole('admin');
+        Permission::firstOrCreate(['name' => 'manajemen-user'])->assignRole('admin');
 
-        // Pembina
-        Permission::firstOrCreate(['name' => 'tambah-ketua'])->assignRole('pembina');
-        Permission::firstOrCreate(['name' => 'hapus-ketua'])->assignRole('pembina');
-        // Ketua
-        Permission::firstOrCreate(['name' => 'buat-jadwal'])->assignRole('ketua');
-        Permission::firstOrCreate(['name' => 'edit-jadwal'])->assignRole('ketua');
-        Permission::firstOrCreate(['name' => 'hapus-jadwal'])->assignRole('ketua');
-        Permission::firstOrCreate(['name' => 'tambah-anggota'])->assignRole('ketua');
-        Permission::firstOrCreate(['name' => 'edit-anggota'])->assignRole('ketua');
-        Permission::firstOrCreate(['name' => 'hapus-anggota'])->assignRole('ketua');
-        Permission::firstOrCreate(['name' => 'ubah-status'])->assignRole('ketua');
-        Permission::firstOrCreate(['name' => 'approve-absensi'])->assignRole('ketua');
-        Permission::firstOrCreate(['name' => 'export'])->assignRole('ketua');
-        // Mahasiswa
-        Permission::firstOrCreate(['name' => 'absensi'])->assignRole('mahasiswa');
+        // Jadwal
+        Permission::firstOrCreate(['name' => 'jadwal'])->assignRole('admin'); // list semua jadwal
+        Permission::firstOrCreate(['name' => 'jadwal'])->assignRole('pembina'); // list semua jadwal
+        Permission::firstOrCreate(['name' => 'jadwal'])->assignRole('ketua'); // list berdasarkan univ ketua
+        Permission::firstOrCreate(['name' => 'jadwal'])->assignRole('anggota'); // list berdasarkan univ anggota
+
+        Permission::firstOrCreate(['name' => 'jadwal-create'])->assignRole('admin');
+        Permission::firstOrCreate(['name' => 'jadwal-create'])->assignRole('ketua');
+
+        Permission::firstOrCreate(['name' => 'jadwal-edit'])->assignRole('admin');
+        Permission::firstOrCreate(['name' => 'jadwal-edit'])->assignRole('ketua');
         
-        // Admin
-        Permission::firstOrCreate(['name' => 'tambah-ketua'])->assignRole('admin');
-        Permission::firstOrCreate(['name' => 'hapus-ketua'])->assignRole('admin');
-        Permission::firstOrCreate(['name' => 'buat-jadwal'])->assignRole('admin');
-        Permission::firstOrCreate(['name' => 'edit-jadwal'])->assignRole('admin');
-        Permission::firstOrCreate(['name' => 'hapus-jadwal'])->assignRole('admin');
-        Permission::firstOrCreate(['name' => 'tambah-anggota'])->assignRole('admin');
-        Permission::firstOrCreate(['name' => 'edit-anggota'])->assignRole('admin');
-        Permission::firstOrCreate(['name' => 'hapus-anggota'])->assignRole('admin');
-        Permission::firstOrCreate(['name' => 'ubah-status'])->assignRole('admin');
-        Permission::firstOrCreate(['name' => 'approve-absensi'])->assignRole('admin');
-        Permission::firstOrCreate(['name' => 'export'])->assignRole('admin');
-        Permission::firstOrCreate(['name' => 'absensi'])->assignRole('admin');
+        Permission::firstOrCreate(['name' => 'jadwal-delete'])->assignRole('admin');
+        Permission::firstOrCreate(['name' => 'jadwal-delete'])->assignRole('ketua');
+
+        // Anggota
+        Permission::firstOrCreate(['name' => 'anggota-list'])->assignRole('pembina'); // list semua anggota
+        Permission::firstOrCreate(['name' => 'anggota-list'])->assignRole('ketua'); // list berdasarkan univ ketua
+        Permission::firstOrCreate(['name' => 'anggota-create'])->assignRole('ketua');
+        Permission::firstOrCreate(['name' => 'anggota-edit'])->assignRole('ketua'); //include change status user
+        Permission::firstOrCreate(['name' => 'anggota-delete'])->assignRole('ketua');
+
+        // Angkat & turunkan ketua
+        Permission::firstOrCreate(['name' => 'ganti-ketua'])->assignRole('pembina');
+
+        // Approve Absensi
+        Permission::firstOrCreate(['name' => 'absensi-approve'])->assignRole('ketua');
+        Permission::firstOrCreate(['name' => 'absensi-approve'])->assignRole('pembina');
+        Permission::firstOrCreate(['name' => 'absensi-approve'])->assignRole('admin');
+
+        // Eskport
+        Permission::firstOrCreate(['name' => 'absensi-export'])->assignRole('ketua'); // data berdasarkan univ
+        Permission::firstOrCreate(['name' => 'absensi-export'])->assignRole('pembina'); // semua data
+        Permission::firstOrCreate(['name' => 'absensi-export'])->assignRole('admin');  // semua data
+
+        Permission::firstOrCreate(['name' => 'absensi-list'])->assignRole('ketua');  // berdasarkan univ
+        Permission::firstOrCreate(['name' => 'absensi-list'])->assignRole('pembina');  // semua data
+        Permission::firstOrCreate(['name' => 'absensi-list'])->assignRole('admin');  // semua data
+
+        // Absen anggota
+        Permission::firstOrCreate(['name' => 'absensi'])->assignRole('ketua'); // list berdasarkan univ
+        Permission::firstOrCreate(['name' => 'absensi'])->assignRole('anggota'); // riwayat absensi masing2
+        Permission::firstOrCreate(['name' => 'absensi-submit'])->assignRole('anggota');
     }
 }

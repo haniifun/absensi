@@ -16,8 +16,10 @@ class CreateAbsensiTable extends Migration
         Schema::create('absensi', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('foto')->nullable();
+            $table->tinyInteger('is_confirmed')->nullable();
             $table->bigInteger('id_user')->nullable();
             $table->bigInteger('id_univ')->nullable();
+            $table->bigInteger('id_kegiatan')->nullable();
             $table->timestamps();
         });
     }

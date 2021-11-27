@@ -45,7 +45,7 @@
                   </table>
                 </div>
             </div>
-            <a href="{{ route('admin.role.index') }}" class="btn btn-primary float-right" onclick="goBack()"><i class="fas fa-arrow-circle-left"> </i> Kembali</a>
+            <a href="{{ route('manajemen.role.index') }}" class="btn btn-primary float-right" onclick="goBack()"><i class="fas fa-arrow-circle-left"> </i> Kembali</a>
             </div>
           </div>
         </div>

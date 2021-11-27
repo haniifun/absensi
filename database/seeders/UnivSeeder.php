@@ -16,7 +16,7 @@ class UnivSeeder extends Seeder
     {
         Univ::insert([
             ['nama_univ' => 'Universitas Indonesia'],
-            ['nama_univ' => 'Universitas Diponegor0'],
+            ['nama_univ' => 'Universitas Diponegoro'],
             ['nama_univ' => 'Universitas Gajah Mada'],
             ['nama_univ' => 'IPB University'],
             ['nama_univ' => 'Institut Teknologi Bandung'],

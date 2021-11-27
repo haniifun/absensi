@@ -20,4 +20,9 @@ class Kegiatan extends Model
     {
         return $this->belongsTo(Univ::class, 'id_univ');
     }
+
+    public function absensi()
+    {
+        return $this->hasMany(Absensi::class, 'id_kegiatan');
+    }
 }

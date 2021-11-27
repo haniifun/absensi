@@ -18,7 +18,7 @@ class RoleSeeder extends Seeder
             ['name' => 'admin', 'guard_name' => 'web'],
             ['name' => 'pembina', 'guard_name' => 'web'],
             ['name' => 'ketua', 'guard_name' => 'web'],
-            ['name' => 'mahasiswa', 'guard_name' => 'web'],
+            ['name' => 'anggota', 'guard_name' => 'web'],
         ]);
     }
 }

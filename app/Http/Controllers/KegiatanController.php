@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Kegiatan;
 use App\Models\Univ;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class KegiatanController extends Controller
@@ -11,7 +12,22 @@ class KegiatanController extends Controller
     //
     public function index()
     {
-        $kegiatan = Kegiatan::with('univ')->get();
+        $role = auth()->user()->getRoleNames()->first();
+        $user = auth()->user();
+
+        // Untuk anggota dan ketua
+        if (in_array(strtolower($role), ['anggota','ketua'] )) {
+            $kegiatan = Kegiatan::where('id_univ',$user->id_univ)->with([
+                            'univ',
+                            'absensi' => function($q) use ($user) {
+                                $q->where('id_user', $user->id);
+                            }
+                        ])->orderBy('id', 'DESC')
+                            ->get();
+        } else {
+            $kegiatan = Kegiatan::with('univ')->orderBy('id', 'DESC')->get();
+        }
+
         return view('kegiatan.index', compact('kegiatan'));
     }
 
@@ -26,12 +42,23 @@ class KegiatanController extends Controller
         $request->validate([
             'nama_kegiatan' => 'required',
             'tanggal' => 'required',
-            'id_univ' => 'required',
         ]);
 
-        Kegiatan::create($request->all());
+        if($request->has('id_univ')){
+            $id_univ = $request->id_univ;
+        } else {
+            $id_univ = auth()->user()->id_univ;
+        }
 
-        return redirect()->route('kegiatan.index')->with('message', '<div class="alert alert-success my-3">Kegiatan baru berhasil ditambahkan.</div>');
+        $data = [
+            'nama_kegiatan' => $request->nama_kegiatan,
+            'tanggal' => $request->tanggal,
+            'id_univ' => $id_univ,
+        ];
+
+        Kegiatan::create($data);
+
+        return redirect()->route('manajemen.kegiatan.index')->with('message', '<div class="alert alert-success my-3">Kegiatan baru berhasil ditambahkan.</div>');
     }
 
     public function edit($id)
@@ -49,14 +76,19 @@ class KegiatanController extends Controller
             'id_univ' => 'required',
         ]);
 
-        Kegiatan::where('id',$id)->update($request->all());
-        return redirect()->route('kegiatan.index')->with('message', '<div class="alert alert-success my-3">Detail kegiatan berhasil diubah.</div>');
+        $data = [
+            'nama_kegiatan' => $request->nama_kegiatan,
+            'tanggal' => $request->tanggal,
+            'id_univ' => $request->id_univ,
+        ];
+        Kegiatan::where('id',$id)->update($data);
+        return redirect()->route('manajemen.kegiatan.index')->with('message', '<div class="alert alert-success my-3">Detail kegiatan berhasil diubah.</div>');
     }
 
     public function delete($id)
     {
         $kegiatan = Kegiatan::where('id', $id)->first();
         $kegiatan->delete();
-        return redirect()->route('kegiatan.index')->with('message', '<div class="alert alert-success my-3">Kegiatan '.$kegiatan->nama_kegiatan.' berhasil dihapus.</div>');
+        return redirect()->route('manajemen.kegiatan.index')->with('message', '<div class="alert alert-success my-3">Kegiatan '.$kegiatan->nama_kegiatan.' berhasil dihapus.</div>');
     }
 }

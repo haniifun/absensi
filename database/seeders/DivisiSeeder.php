@@ -13,12 +13,11 @@ class DivisiSeeder extends Seeder
      */
     public function run()
     {
-
         Divisi::insert([
-            ['nama_divisi' => 'Divisi A'],
-            ['nama_divisi' => 'Divisi B'],
-            ['nama_divisi' => 'Divisi C'],
-            ['nama_divisi' => 'Divisi D'],
+            ['nama_divisi' => 'Divisi 1'],
+            ['nama_divisi' => 'Divisi 2'],
+            ['nama_divisi' => 'Divisi 3'],
+            ['nama_divisi' => 'Divisi 4'],
         ]);
     }
 }

@@ -14,6 +14,18 @@ class Absensi extends Model
     protected $fillable = [
         'foto',
         'id_user',
-        'id_univ'
+        'id_kegiatan',
+        'is_confirmed'
     ];
+
+
+    public function kegiatan()
+    {
+        return $this->belongsTo(Kegiatan::class, 'id_kegiatan');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
 }
