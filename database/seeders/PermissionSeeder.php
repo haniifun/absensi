@@ -46,7 +46,6 @@ class PermissionSeeder extends Seeder
 
         // Eskport
         Permission::firstOrCreate(['name' => 'absensi-export'])->assignRole('ketua'); // data berdasarkan univ
-        Permission::firstOrCreate(['name' => 'absensi-export'])->assignRole('pembina'); // semua data
         Permission::firstOrCreate(['name' => 'absensi-export'])->assignRole('admin');  // semua data
 
         Permission::firstOrCreate(['name' => 'absensi-list'])->assignRole('ketua');  // berdasarkan univ
@@ -54,7 +53,6 @@ class PermissionSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'absensi-list'])->assignRole('admin');  // semua data
 
         // Absen anggota
-        Permission::firstOrCreate(['name' => 'absensi'])->assignRole('ketua'); // list berdasarkan univ
         Permission::firstOrCreate(['name' => 'absensi'])->assignRole('anggota'); // riwayat absensi masing2
         Permission::firstOrCreate(['name' => 'absensi-submit'])->assignRole('anggota');
     }

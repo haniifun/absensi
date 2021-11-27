@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Absensi;
+use App\Models\Kegiatan;
+use App\Models\User;
 use PDF;
+use Illuminate\Support\Facades\DB;
 
 class AbsensiController extends Controller
 {
@@ -55,6 +58,7 @@ class AbsensiController extends Controller
 
         $user = auth()->user();
         $role = auth()->user()->getRoleNames()->first();
+
         if ( strtolower($role) == 'ketua') {
             $absensi = Absensi::where('id_univ', $user->id_univ)
                                 ->with('kegiatan','user')
@@ -78,14 +82,34 @@ class AbsensiController extends Controller
 
     public function eksport()
     {        
-        
-        $data = [
-            'title' => 'Welcome to ItSolutionStuff.com',
-            'date' => date('m/d/Y')
-        ];
-          
-        $pdf = PDF::loadView( $data);
+        $user = auth()->user();
+        if ( $user->hasRole('admin') ) {
+            $absensi = User::whereHas('roles', function($q) { 
+                            $q->whereName('anggota'); 
+                        })->withCount('absensi as kehadiran')
+                        ->with([
+                            'univ',
+                            'absensi' => function ($q) {
+                                return $q->where('is_confirmed', 1)->with('kegiatan');
+                            }
+                        ])->get();
+        } else {
+            $absensi = User::whereHas('roles', function($q) { 
+                            $q->whereName('anggota'); 
+                        })->where('id_univ', $user->id_univ)
+                        ->withCount('absensi as kehadiran')
+                        ->with([
+                            'univ',
+                            'absensi' => function ($q) {
+                                return $q->where('is_confirmed', 1)->with('kegiatan');
+                            }
+                        ])->get();
+        }
+
+        // return view('absensi.export', compact('absensi'));
+        // // dd($absensi);
+        $pdf = PDF::loadView('absensi.export', compact('absensi'));
     
-        return $pdf->download('itsolutionstuff.pdf');
+        return $pdf->download('report-absensi.pdf');
     }
 }

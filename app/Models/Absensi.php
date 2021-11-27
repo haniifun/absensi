@@ -28,4 +28,9 @@ class Absensi extends Model
     {
         return $this->belongsTo(User::class, 'id_user');
     }
+
+    public function univ()
+    {
+        return $this->belongsTo(Univ::class, 'id_univ');
+    }
 }

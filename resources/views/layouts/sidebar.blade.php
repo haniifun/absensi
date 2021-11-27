@@ -13,8 +13,8 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <li class="nav-item has-treeview {{ in_array(request()->segment(2), ['absensi','kegiatan','anggota'] ) || request()->segment(1)=='absensi' ? 'menu-open' : null }}">
-            <a href="#" class="nav-link {{ in_array(request()->segment(2), ['absensi','kegiatan','anggota'] ) || request()->segment(1)=='absensi' ? 'active' : null }}">
+          <li class="nav-item has-treeview {{ in_array(request()->segment(2), ['absensi','kegiatan','anggota','ketua'] ) || request()->segment(1)=='absensi' ? 'menu-open' : null }}">
+            <a href="#" class="nav-link {{ in_array(request()->segment(2), ['absensi','kegiatan','anggota','ketua'] ) || request()->segment(1)=='absensi' ? 'active' : null }}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -44,6 +44,15 @@
                 <a href="{{ route('manajemen.absensi.index') }}" class="nav-link {{ request()->segment(2)=='absensi' ? 'active' : null }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Absensi</p>
+                </a>
+              </li>
+              @endcan
+
+              @can('ganti-ketua')
+              <li class="nav-item">
+                <a href="{{ route('manajemen.ketua.index') }}" class="nav-link {{ request()->segment(2) == 'ketua' ? 'active' : null }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ketua</p>
                 </a>
               </li>
               @endcan

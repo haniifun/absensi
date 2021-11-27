@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\AnggotaController;
+use App\Http\Controllers\KetuaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
@@ -27,6 +28,10 @@ Route::group(['as'=>'', 'prefix'=>'/'], function() {
     Route::get('', function() {
         return redirect()->route('login');
     });
+
+    Route::get('back', function() {
+        return redirect()->route('login');
+    })->name('back');
 
 
     Route::group(['as'=>'manajemen.', 'prefix'=>'manajemen/'], function() {
@@ -85,6 +90,12 @@ Route::group(['as'=>'', 'prefix'=>'/'], function() {
             });
         });
 
+        // Manajemen ketua
+        Route::group(['as'=>'ketua.', 'prefix'=>'ketua/', 'middleware'=>'permission:ganti-ketua'], function () {
+            Route::get('', [KetuaController::class,'index'])->name('index');
+            Route::patch('copot-ketua/{id}', [KetuaController::class,'copotKetua'])->name('copot-ketua');
+            Route::patch('angkat-ketua/{id}', [KetuaController::class,'angkatKetua'])->name('angkat-ketua');
+        });
 
         // Manajemen Jadwal
         Route::group(['as'=>'kegiatan.', 'prefix'=>'kegiatan/', 'middleware'=>'permission:jadwal'], function () {

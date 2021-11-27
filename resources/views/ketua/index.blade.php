@@ -30,13 +30,11 @@
               <h5 class="card-title">Data Anggota Komunitas</h5>
             </div>
             <div class="card-body">
-              @can('anggota-create')
               <div class="row my-3">
                 <div class="col-md-12">
                   <a href="{{ route('manajemen.anggota.create') }}" class="btn btn-sm btn-primary text-white"><i class="fas fa-plus"></i> Tambah</a>
                 </div>
               </div>
-              @endcan
               <div class="row">
                 <div class="col-lg col-md-12">
                   <table id="example1" class="table table-bordered table-hover datatables-responsive">
@@ -52,18 +50,9 @@
                     <tbody>
                         @foreach ($users as $user)
                             <tr class="align-middle">
-                                @can('anggota-edit')
                                 <td class="text-center col-2">
-                                  <a href="{{ route('manajemen.anggota.delete', $user->id) }}" data-method='delete' data-confirm='Apakah anda yakin ingin menghapus {{$user->nama}}?' class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                                  <a href="{{ route('manajemen.anggota.edit', $user->id) }}" class="btn btn-sm btn-default"><i class="fas fa-edit"></i></a>
-                                  <a href="{{ route('manajemen.anggota.show', $user->id) }}" class="btn btn-sm btn-info"><i class="fas fa-eye"></i></a>
+                                  <a href="{{ route('manajemen.ketua.copot-ketua', $user->id) }}" data-method='patch' class="btn btn-sm btn-success">Turunkan ketua</a>
                                 </td>
-                                @endcan
-                                @can('ganti-ketua')
-                                  <td>
-                                    <a href="{{ route('manajemen.ketua.angkat-ketua', $user->id) }}" data-method='patch' class="btn btn-sm btn-success">Jadikan ketua</a>
-                                  </td>
-                                @endcan
                                 <td class="align-middle">{{ $user->nama }}</td>
                                 <td class="align-middle">{{ isset($user->univ) ? $user->univ->nama_univ : '-' }}</td>
                                 <td class="align-middle">{{ $user->tahun_ajar}}</td>
