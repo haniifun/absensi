@@ -54,7 +54,7 @@
 	</div>
 	<footer>
 		<span style="float: right;">	
-			Tanggal eksport : {{ date('d-m-Y') }}
+			Tanggal eksport : {{ date('d-m-Y H:i') }}
 		</span>
 	</footer>
 </body>
